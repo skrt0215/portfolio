@@ -11,11 +11,22 @@ body {
     radial-gradient(60% 50% at 50% -8%, rgba(46, 111, 184, 0.10), transparent 70%),
     radial-gradient(40% 40% at 100% 0%, rgba(31, 58, 95, 0.12), transparent 70%),
     radial-gradient(50% 50% at 0% 100%, rgba(31, 58, 95, 0.10), transparent 70%);
-  background-attachment: fixed;
   background-repeat: no-repeat;
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  animation: ambientDrift 32s ease-in-out infinite alternate;
   font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes ambientDrift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { animation: none; }
 }
 
 ::-webkit-scrollbar { width: 10px; }
