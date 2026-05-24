@@ -1,26 +1,36 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: #E8EAED;
+  background-color: #0E1116;
+  background-image:
+    radial-gradient(60% 50% at 50% -8%, rgba(46, 111, 184, 0.10), transparent 70%),
+    radial-gradient(40% 40% at 100% 0%, rgba(31, 58, 95, 0.12), transparent 70%),
+    radial-gradient(50% 50% at 0% 100%, rgba(31, 58, 95, 0.10), transparent 70%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0E1116; }
+::-webkit-scrollbar-thumb { background: #1F3A5F; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #2E6FB8; }
+
+::selection { background-color: rgba(46, 111, 184, 0.4); color: #E8EAED; }
+::-moz-selection { background-color: rgba(46, 111, 184, 0.4); color: #E8EAED; }
+
+.site-container {
+  width: 100%;
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
 }
