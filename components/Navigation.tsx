@@ -61,7 +61,7 @@ const Navigation = () => {
               SK
             </motion.a>
 
-            <div style={{ display: "none", alignItems: "center", gap: "4px" }} className="md:flex">
+            <div style={{ alignItems: "center", gap: "4px" }} className="hidden md:flex">
               {navItems.map((item) => (
                 <a
                   key={item.name}
@@ -115,7 +115,6 @@ const Navigation = () => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               style={{
-                display: "block",
                 fontSize: "26px",
                 color: colors.textPrimary,
                 background: "none",
