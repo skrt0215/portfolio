@@ -36,7 +36,7 @@ const Projects = () => {
     {
       title: "Overwatch",
       description:
-        "Production operations command platform aggregating real-time data from 4 external systems into a unified interface. Features 90+ API endpoints, 14-table PostgreSQL schema with multi-tenant isolation, and ETL pipelines integrating Lighthouse, eHub, GeoTab fleet tracking, and AssetPanda. Built with FastAPI backend, React dashboard with Chart.js/Mapbox GL, and Selenium automation for complex authentication flows.",
+        "Production operations command platform aggregating real-time data from 4 external systems into a unified interface. The company acquired its code and IP rights under contract and it now powers daily operations company-wide. Features 90+ API endpoints, 14-table PostgreSQL schema with multi-tenant isolation, and ETL pipelines integrating Lighthouse, eHub, GeoTab fleet tracking, and AssetPanda. Built with FastAPI backend, React dashboard with Chart.js/Mapbox GL, and Selenium automation for complex authentication flows.",
       tags: ["Python", "FastAPI", "PostgreSQL", "React", "Selenium", "Docker"],
       icons: [SiPython, SiFastapi, SiPostgresql, SiReact],
       github: "",

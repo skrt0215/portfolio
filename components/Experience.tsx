@@ -12,18 +12,32 @@ const Experience = () => {
 
   const experiences = [
     {
+      title: "Software Engineer (OVERWATCH Platform)",
+      company: "Strategic Security Corp",
+      period: "Aug 2025 - Present",
+      location: "Smithtown, NY (remote / relocating)",
+      description: "Owning end-to-end engineering of the OVERWATCH operations platform.",
+      responsibilities: [
+        "Built the OVERWATCH platform end to end — FastAPI backend, PostgreSQL with SQLAlchemy, and a React frontend spanning 9 modules, with JWT authentication and multi-tenant isolation",
+        "Engineered REST API and Selenium-based data pipelines to aggregate and normalize data from external operations systems",
+        "Migrated production infrastructure from DigitalOcean to Azure with zero data loss across 44,000+ records",
+        "Built frontend health monitoring against the API to surface service status and catch failures in real time",
+      ],
+      badge: "Current",
+    },
+    {
       title: "Operations Manager",
       company: "Strategic Security Corp",
       period: "Dec 2024 - Present",
       location: "New York, NY",
       description: "Leading operations and technical platform delivery for the organization.",
       responsibilities: [
-        "Designed, built, and deployed OVERWATCH, a production operations platform that unified four external systems into one dashboard and was adopted across the organization",
+        "Designed, built, and deployed OVERWATCH, a production operations platform that unified four external systems into one dashboard; the company acquired its code and IP rights under contract and it now powers daily operations company-wide",
         "Coordinated executive protection during the 2025 Presidential Inauguration by directing logistics with cross-agency teams in a high-pressure environment",
         "Coordinated operations with DoD military bases by applying federal compliance protocols, improving compliance and organizational readiness",
         "Designed scalable project management workflows by implementing performance-tracking tools, streamlining federal contract delivery and oversight",
       ],
-      badge: "Current",
+      badge: "Active",
     },
     {
       title: "Operations Analyst",
@@ -39,6 +53,20 @@ const Experience = () => {
       badge: "2 Years",
     },
   ];
+
+  // Presentational grouping only — derives company groups from the flat `experiences`
+  // array at render time; the data model above is unchanged.
+  const companyGroups = experiences.reduce<
+    { company: string; roles: { exp: (typeof experiences)[number]; index: number }[] }[]
+  >((acc, exp, index) => {
+    const last = acc[acc.length - 1];
+    if (last && last.company === exp.company) {
+      last.roles.push({ exp, index });
+    } else {
+      acc.push({ company: exp.company, roles: [{ exp, index }] });
+    }
+    return acc;
+  }, []);
 
   return (
     <section id="experience" style={{ paddingTop: "120px", paddingBottom: "120px", position: "relative" }}>
@@ -63,72 +91,107 @@ const Experience = () => {
           animate={isInView ? "visible" : "hidden"}
           style={{ maxWidth: "56rem", marginLeft: "auto", marginRight: "auto", display: "flex", flexDirection: "column", gap: "20px" }}
         >
-          {experiences.map((exp, index) => {
-            const isExpanded = expandedIndex === index;
-            return (
-              <motion.div
-                key={index}
-                variants={fadeRise}
-                onClick={() => setExpandedIndex(isExpanded ? null : index)}
-                style={{ ...cardStyle, padding: "28px", cursor: "pointer" }}
-              >
-                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "12px", marginBottom: "10px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-                    <h3 style={{ fontSize: "1.4rem", fontWeight: 700, color: colors.textPrimary }}>{exp.title}</h3>
-                    <span
-                      style={{
-                        padding: "3px 12px",
-                        borderRadius: "9999px",
-                        background: colors.accentTint,
-                        border: `1px solid ${colors.accentBorder}`,
-                        color: colors.accent,
-                        fontSize: "12px",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {exp.badge}
-                    </span>
-                  </div>
-                  <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.2 }} style={{ fontSize: "1.3rem", color: colors.textSecondary }}>
-                    <HiChevronDown />
-                  </motion.div>
-                </div>
+          {companyGroups.map((group) => (
+            <motion.div key={group.company} variants={fadeRise} style={{ ...cardStyle, padding: "28px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", marginBottom: "20px" }}>
+                <HiOfficeBuilding style={{ fontSize: "20px", color: colors.accent }} />
+                <h3 style={{ fontSize: "1.4rem", fontWeight: 700, color: colors.textPrimary }}>{group.company}</h3>
+                {group.roles.length > 1 && (
+                  <span
+                    style={{
+                      padding: "3px 12px",
+                      borderRadius: "9999px",
+                      background: colors.accentTint,
+                      border: `1px solid ${colors.accentBorder}`,
+                      color: colors.accent,
+                      fontSize: "12px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {group.roles.length} roles
+                  </span>
+                )}
+              </div>
 
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", color: colors.accent, marginBottom: "8px" }}>
-                  <HiOfficeBuilding style={{ fontSize: "16px" }} />
-                  <span style={{ fontWeight: 600, fontSize: "15px" }}>{exp.company}</span>
-                </div>
+              <div style={{ position: "relative", paddingLeft: "28px" }}>
+                <div style={{ position: "absolute", left: "5px", top: "6px", bottom: "6px", width: "2px", background: colors.border }} />
 
-                <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "12px" }}>
-                  <p style={{ color: colors.textSecondary, fontSize: "13px" }}>{exp.period}</p>
-                  <p style={{ color: colors.textSecondary, fontSize: "13px" }}>{exp.location}</p>
-                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  {group.roles.map(({ exp, index }) => {
+                    const isExpanded = expandedIndex === index;
+                    return (
+                      <div key={index} style={{ position: "relative" }}>
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: "-27px",
+                            top: "6px",
+                            width: "12px",
+                            height: "12px",
+                            borderRadius: "50%",
+                            background: colors.accent,
+                            border: `3px solid ${colors.surface}`,
+                          }}
+                        />
 
-                <p style={{ color: colors.textSecondary, lineHeight: 1.6, marginBottom: "4px" }}>{exp.description}</p>
+                        <div onClick={() => setExpandedIndex(isExpanded ? null : index)} style={{ cursor: "pointer" }}>
+                          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "12px", marginBottom: "8px" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                              <h4 style={{ fontSize: "1.15rem", fontWeight: 700, color: colors.textPrimary }}>{exp.title}</h4>
+                              <span
+                                style={{
+                                  padding: "3px 12px",
+                                  borderRadius: "9999px",
+                                  background: colors.accentTint,
+                                  border: `1px solid ${colors.accentBorder}`,
+                                  color: colors.accent,
+                                  fontSize: "12px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {exp.badge}
+                              </span>
+                            </div>
+                            <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.2 }} style={{ fontSize: "1.3rem", color: colors.textSecondary }}>
+                              <HiChevronDown />
+                            </motion.div>
+                          </div>
 
-                <motion.div
-                  initial={false}
-                  animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  style={{ overflow: "hidden" }}
-                >
-                  <div style={{ paddingTop: "16px", marginTop: "12px", borderTop: `1px solid ${colors.border}` }}>
-                    <h4 style={{ color: colors.textPrimary, fontWeight: 600, marginBottom: "12px", fontSize: "15px" }}>
-                      Key Achievements
-                    </h4>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                      {exp.responsibilities.map((resp, idx) => (
-                        <div key={idx} style={{ color: colors.textSecondary, fontSize: "14px", display: "flex", alignItems: "flex-start", gap: "10px", lineHeight: 1.6 }}>
-                          <span style={{ color: colors.accent, marginTop: "2px" }}>▹</span>
-                          <span>{resp}</span>
+                          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "12px" }}>
+                            <p style={{ color: colors.textSecondary, fontSize: "13px" }}>{exp.period}</p>
+                            <p style={{ color: colors.textSecondary, fontSize: "13px" }}>{exp.location}</p>
+                          </div>
+
+                          <p style={{ color: colors.textSecondary, lineHeight: 1.6, marginBottom: "4px" }}>{exp.description}</p>
+
+                          <motion.div
+                            initial={false}
+                            animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                            transition={{ duration: 0.3 }}
+                            style={{ overflow: "hidden" }}
+                          >
+                            <div style={{ paddingTop: "16px", marginTop: "12px", borderTop: `1px solid ${colors.border}` }}>
+                              <h5 style={{ color: colors.textPrimary, fontWeight: 600, marginBottom: "12px", fontSize: "15px" }}>
+                                Key Achievements
+                              </h5>
+                              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                                {exp.responsibilities.map((resp, idx) => (
+                                  <div key={idx} style={{ color: colors.textSecondary, fontSize: "14px", display: "flex", alignItems: "flex-start", gap: "10px", lineHeight: 1.6 }}>
+                                    <span style={{ color: colors.accent, marginTop: "2px" }}>▹</span>
+                                    <span>{resp}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </motion.div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            );
-          })}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
 
         <motion.div
